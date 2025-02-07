@@ -9,7 +9,8 @@ import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-
 import { loadStripe } from '@stripe/stripe-js';
 import { urlFor } from '@/sanity/lib/image';
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+
+if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined');
 }
 
