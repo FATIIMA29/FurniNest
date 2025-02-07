@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { FcApproval } from 'react-icons/fc';
 
+
 const PaymentSuccess = () => {
     const [total, setTotal] = useState<number | null>(null);
     const [isClient, setIsClient] = useState(false); // Track hydration
