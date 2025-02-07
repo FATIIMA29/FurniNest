@@ -14,8 +14,8 @@ import { ClerkLoaded,
 const TopBar = () => {
   const [languageDropdown, setLanguageDropdown] = useState(false);
   const [currencyDropdown, setCurrencyDropdown] = useState(false);
+  const { user, isLoaded } = useUser();
 
-const {user} = useUser();
   return (
     <div className="bg-violet-700 text-white py-2 text-sm">
       {/* TopBar Container */}
@@ -23,8 +23,7 @@ const {user} = useUser();
         {/* Left Section */}
         <div className="flex flex-wrap items-center justify-around sm:justify-center gap-4 sm:gap-6 w-full sm:w-auto">
           {/* Email */}
-          <Link
-            href="hFurniNestekto@example.com"
+          <Link href="mailto:FurniNest@example.com" 
             className="flex items-center gap-2  hover:text-gray-200 text-xs sm:text-sm"
           >
             <FaEnvelope />
@@ -44,24 +43,25 @@ const {user} = useUser();
 
   <SignedIn >
   </SignedIn>
-  {user ? (
- <div className="flex items-center space-x-2">
-  <UserButton />
-  <div className="flex flex-col text-left text-xs">
-    <p className="text-gray-400">Welcome Back</p>
-    <p className="font-bold">{user.fullName}</p>
-  </div>
-</div>
-) :(
-
-  <SignInButton mode="modal" />)}
- 
+  {isLoaded ? (
+  user ? (
+    <div className="flex items-center space-x-2">
+      <UserButton />
+      <div className="flex flex-col text-left text-xs">
+        <p className="text-gray-400">Welcome Back</p>
+        <p className="font-bold">{user.fullName}</p>
+      </div>
+    </div>
+  ) : (
+    <SignInButton mode="modal" />
+  )
+) : null} 
 
 
   
 </ClerkLoaded>
 
-<Link href="/cart" className="flex sm:hidden items-center gap-2 cursor-pointer hover:text-gray-200 text-xs sm:text-sm transition-colors duration-300" legacyBehavior>
+<Link href="/cart" className="flex sm:hidden items-center gap-2 cursor-pointer hover:text-gray-200 text-xs sm:text-sm transition-colors duration-300" >
           
           <FaShoppingCart className="text-base flex sm:hidden sm:text-lg" />
           {/* <span>ShoppingCart</span> */}
