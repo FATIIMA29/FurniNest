@@ -6,8 +6,20 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+
 const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
-    
+  console.log(window.location.host)
+
+  const myhost = window.location.host
+  let URL = '';
+
+  if (myhost === 'localhost:3000') {
+      URL = 'http://localhost:3000'
+  }
+  else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      URL = 'https://stripe-payment-one-nu.vercel.app';
+  }
     const stripe = useStripe();
     const elements = useElements();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
