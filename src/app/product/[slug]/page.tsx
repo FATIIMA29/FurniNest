@@ -4,6 +4,8 @@ import { Product } from "../../../../type/product";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
+console.log("Sanity Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
+
 
 type Diff<A, B> = Omit<A, keyof B> & Partial<B>; // Computes the difference between two types
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,6 +17,8 @@ interface PageProps {
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
+console.log("Sanity Project ID:", process.env.NEXT_PUBLIC_SANITY_PROJECT_ID);
+console.log("Sanity Dataset:", process.env.NEXT_PUBLIC_SANITY_DATASET);
 
 export default async function ProductPage({ params }: ProductPageProps) {
   // Await the params Promise to get the slug
