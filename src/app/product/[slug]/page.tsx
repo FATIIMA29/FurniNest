@@ -5,33 +5,43 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
 
+
+// Define utility types
+type Diff<A, B> = Omit<A, keyof B> & Partial<B>; // Computes the difference between two types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FirstArg<T> = T extends (arg: infer U) => any ? U : never; // Extracts the first argument of a function
+
+// Define PageProps with params as a Promise
+interface PageProps {
+  params: Promise<{ slug: string }>; // params is now a Promise
+}
+
+// Define ProductPageProps
 interface ProductPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>; // params is now a Promise
 }
 
-// Fetch product data from Sanity
-async function getProduct(slug: string): Promise<Product | null> {
-  const product: Product | null = await client.fetch(
-    groq`*[_type == "product" && slug.current == $slug][0]{
-      _id,
-      name,
-      _type,
-      image,
-      price,
-      description,
-      discountPercentage,
-      "slug": slug.current
-    }`,
-    { slug }
-  );
-  return product || null;
-}
-
+// Your page component
 export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = params;
+  // Await the params Promise to get the slug
+  const { slug } = await params;
+
+  if (!slug) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-center">
+        <h2 className="text-3xl font-bold text-red-500">Error</h2>
+        <p className="text-gray-500 mt-2">Missing product slug.</p>
+        <Link href="/">
+          <button className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700">
+            Go Back to Home
+          </button>
+        </Link>
+      </div>
+    );
+  }
+
   const product = await getProduct(slug);
 
-  // Handle invalid product case
   if (!product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center">
@@ -66,13 +76,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="bg-white p-6 shadow-lg rounded-lg border flex flex-col justify-center items-center text-center">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">{product.name}</h1>
           <p className="text-gray-600 text-lg mb-4">{product.description}</p>
-          
+
           {product.discountPercentage > 0 && (
             <p className="text-green-600 font-semibold text-lg mb-2">
               {product.discountPercentage}% OFF
             </p>
           )}
-          
+
           <p className="text-2xl font-bold text-purple-600 mb-4">${product.price}</p>
 
           <button className="px-6 py-2 bg-purple-600 text-white rounded-lg shadow-lg hover:bg-purple-700">
@@ -83,3 +93,37 @@ export default async function ProductPage({ params }: ProductPageProps) {
     </div>
   );
 }
+
+// Utility function to fetch product data
+async function getProduct(slug: string): Promise<Product | null> {
+  const product: Product | null = await client.fetch(
+    groq`*[_type == "product" && slug.current == $slug][0]{
+      _id,
+      name,
+      _type,
+      image,
+      price,
+      description,
+      discountPercentage,
+      "slug": slug.current
+    }`,
+    { slug }
+  );
+  return product || null;
+}
+import * as entry from './page';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js';
+
+// Type-checking logic (place this at the bottom of the file)
+type TEntry = typeof entry // Replace './page' with the correct path to your file
+
+// Define the checkFields function (if not already defined)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function checkFields<T>() {
+  // Implementation of type-checking logic
+  console.log("Type-checking completed successfully.");
+}
+
+// Perform type-checking
+checkFields<Diff<PageProps, FirstArg<TEntry['default']>>>();

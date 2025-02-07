@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build ",
     "start": "next start",
     "lint": "next lint"
   },
@@ -23,7 +23,7 @@
     "sanity": "^3.74.1",
     "stripe": "^17.6.0",
     "styled-components": "^6.1.15",
-    "sweetalert2": "^11.15.10"
+    "sweetalert2": "^11.6.13"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

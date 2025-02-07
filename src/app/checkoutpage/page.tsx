@@ -15,14 +15,14 @@ const CheckoutForm = ({ clientSecret }: { clientSecret: string }) => {
         if (!stripe || !elements) return;
       
         try {
-          // ✅ Step 1: Submit the form validation
+          //  Submit the form validation
           const { error: submitError } = await elements.submit();
           if (submitError) {
             console.error("Validation error:", submitError.message);
             return;
           }
       
-          // ✅ Step 2: Confirm the payment only after form submission is successful
+          //  Confirm the payment only after form submission is successful
           const { error: paymentError } = await stripe.confirmPayment({
             elements,
             clientSecret,
