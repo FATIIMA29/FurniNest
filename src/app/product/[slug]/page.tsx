@@ -5,23 +5,17 @@ import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
 
-
-// Define utility types
 type Diff<A, B> = Omit<A, keyof B> & Partial<B>; // Computes the difference between two types
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FirstArg<T> = T extends (arg: infer U) => any ? U : never; // Extracts the first argument of a function
-
-// Define PageProps with params as a Promise
 interface PageProps {
-  params: Promise<{ slug: string }>; // params is now a Promise
+  params: Promise<{ slug: string }>;
 }
 
-// Define ProductPageProps
 interface ProductPageProps {
-  params: Promise<{ slug: string }>; // params is now a Promise
+  params: Promise<{ slug: string }>;
 }
 
-// Your page component
 export default async function ProductPage({ params }: ProductPageProps) {
   // Await the params Promise to get the slug
   const { slug } = await params;
@@ -74,7 +68,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Product Details */}
         <div className="bg-white p-6 shadow-lg rounded-lg border flex flex-col justify-center items-center text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">{product.name}</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            {product.name}
+          </h1>
           <p className="text-gray-600 text-lg mb-4">{product.description}</p>
 
           {product.discountPercentage > 0 && (
@@ -83,7 +79,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </p>
           )}
 
-          <p className="text-2xl font-bold text-purple-600 mb-4">${product.price}</p>
+          <p className="text-2xl font-bold text-purple-600 mb-4">
+            ${product.price}
+          </p>
 
           <button className="px-6 py-2 bg-purple-600 text-white rounded-lg shadow-lg hover:bg-purple-700">
             Add to Cart
@@ -111,19 +109,15 @@ async function getProduct(slug: string): Promise<Product | null> {
   );
   return product || null;
 }
-import * as entry from './page';
+import * as entry from "./page";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js';
+import type { ResolvingMetadata, ResolvingViewport,} from "next/dist/lib/metadata/types/metadata-interface.js";
 
-// Type-checking logic (place this at the bottom of the file)
-type TEntry = typeof entry // Replace './page' with the correct path to your file
+type TEntry = typeof entry;
 
-// Define the checkFields function (if not already defined)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function checkFields<T>() {
-  // Implementation of type-checking logic
   console.log("Type-checking completed successfully.");
 }
 
-// Perform type-checking
-checkFields<Diff<PageProps, FirstArg<TEntry['default']>>>();
+checkFields<Diff<PageProps, FirstArg<TEntry["default"]>>>();

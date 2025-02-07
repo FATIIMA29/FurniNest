@@ -8,11 +8,8 @@ import Image from 'next/image';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { urlFor } from '@/sanity/lib/image';
-import { NextResponse } from 'next/server';
 
-export async function GET() {
-  return NextResponse.json({ message: "API is working" });
-}
+
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined');
 }
