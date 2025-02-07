@@ -1,5 +1,12 @@
-import stripe from "@/sanity/lib/stripe";
+import Stripe from 'stripe';
 import { NextRequest, NextResponse } from "next/server";
+if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("Stripe secret key is missing");
+  }
+  
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2022-11-15', // Ensure the correct API version
+  });
 
 export async function POST(request: NextRequest) {
     console.log("Received POST request to /api/payment-intent");
