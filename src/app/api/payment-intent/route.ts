@@ -1,8 +1,9 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from "next/server";
+console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
 if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error("Stripe secret key is missing");
-  }
+  throw new Error("STRIPE_SECRET_KEY is missing from environment variables");
+}
   
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: '2022-11-15', // Ensure the correct API version
